@@ -96,12 +96,12 @@ func (p *Puppet) Initialize(packerBuild bool) error {
 }
 
 func amazonClusterConfig(conf *clusterv1alpha1.ClusterAmazon, hieraData *hieraData) {
-        if conf == nil {
-                return
-        }
-        if conf.EBSEncrypted != nil {
-                hieraData.variables = append(hieraData.variables, fmt.Sprintf(`kubernetes::storage_encrypted: true`))
-        }
+	if conf == nil {
+		return
+	}
+	if conf.EBSEncrypted != nil {
+		hieraData.variables = append(hieraData.variables, fmt.Sprintf(`kubernetes::storage_encrypted: true`))
+	}
 }
 
 func kubernetesClusterConfig(conf *clusterv1alpha1.ClusterKubernetes, hieraData *hieraData) {
@@ -302,6 +302,13 @@ func kubernetesClusterConfigPerRole(conf *clusterv1alpha1.ClusterKubernetes, rol
 		hieraData.variables = append(hieraData.variables, `kubernetes::use_hyperkube: true`)
 	}
 
+	if conf.EncryptionProvider.Enabled {
+		hieraData.variables = append(hieraData.variables, `kubernetes::use_encryption_provider: true`)
+		hieraData.variables = append(hieraData.variables, fmt.Sprintf(`kubernetes::encryption_provider_version: %s`, conf.EncryptionProvider.Version))
+	} else {
+		hieraData.variables = append(hieraData.variables, `kubernetes::use_encryption_provider: false`)
+	}
+
 	switch roleName {
 	case clusterv1alpha1.KubernetesMasterRoleName:
 		hieraData.variables = append(hieraData.variables, `kubernetes::release_type: "server"`)
@@ -416,22 +423,22 @@ func kubernetesInstancePoolConfig(conf *clusterv1alpha1.InstancePoolKubernetes, 
 func (p *Puppet) contentClusterConfig(cluster interfaces.Cluster) ([]string, error) {
 
 	hieraData := &hieraData{}
-        sans := []string{}
+	sans := []string{}
 	if publicAPIHostname := cluster.PublicAPIHostname(); publicAPIHostname != "" {
 		sans = []string{publicAPIHostname}
-        }
-        if privateAPIHostname := cluster.PrivateAPIHostname(); privateAPIHostname != "" {
-                sans = append(sans, []string{privateAPIHostname}...)
-        }
-        if len(sans) > 0 {
-                sansJSON, err := json.Marshal(&sans)
-                if err != nil {
-                        panic(err)
-                }
-                hieraData.variables = append(hieraData.variables, fmt.Sprintf("tarmak::master::apiserver_additional_san_domains: %s", string(sansJSON)))
-        }
+	}
+	if privateAPIHostname := cluster.PrivateAPIHostname(); privateAPIHostname != "" {
+		sans = append(sans, []string{privateAPIHostname}...)
+	}
+	if len(sans) > 0 {
+		sansJSON, err := json.Marshal(&sans)
+		if err != nil {
+			panic(err)
+		}
+		hieraData.variables = append(hieraData.variables, fmt.Sprintf("tarmak::master::apiserver_additional_san_domains: %s", string(sansJSON)))
+	}
 	kubernetesClusterConfig(cluster.Config().Kubernetes, hieraData)
-        amazonClusterConfig(cluster.Config().Amazon, hieraData)
+	amazonClusterConfig(cluster.Config().Amazon, hieraData)
 
 	hieraData.classes = append(hieraData.classes, `tarmak::fluent_bit`)
 	if cluster.Config().LoggingSinks != nil && len(cluster.Config().LoggingSinks) > 0 {
