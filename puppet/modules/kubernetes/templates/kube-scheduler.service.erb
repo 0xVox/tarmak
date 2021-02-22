@@ -9,6 +9,7 @@ User=<%= scope['kubernetes::user'] %>
 Group=<%= scope['kubernetes::group'] %>
 ExecStart=<%= scope['kubernetes::_dest_dir'] %>/<%= @command_name %> \
   --v=<%= scope['kubernetes::log_level'] %> \
+  --bind-address 0.0.0.0 \
   --kubeconfig=<%= @kubeconfig_path %> \
   --leader-elect=true \
 <% if @_feature_gates && @_feature_gates.length > 0 -%>

@@ -12,6 +12,7 @@ ExecStartPre=/bin/sh -c "test -e <%= scope['kubernetes::_service_account_key_fil
 <% end -%>
 ExecStart=<%= scope['kubernetes::_dest_dir'] %>/<%= @command_name %> \
   --v=<%= scope['kubernetes::log_level'] %> \
+  --bind-address 0.0.0.0 \
 <% if @allow_privileged -%>
   --allow-privileged=true \
 <% else -%>
