@@ -117,6 +117,13 @@ func kubernetesClusterConfig(conf *clusterv1alpha1.ClusterKubernetes, hieraData 
 		hieraData.variables = append(hieraData.variables, fmt.Sprintf(`tarmak::kubernetes_pod_network: "%s"`, conf.PodCIDR))
 	}
 
+	// forward pod CIDR settings
+	if conf.DisableEC2Metadata != nil {
+		hieraData.variables = append(hieraData.variables, fmt.Sprintf(`tarmak::disable_ec2_metadata: %t`, *conf.DisableEC2Metadata))
+	} else {
+		hieraData.variables = append(hieraData.variables, fmt.Sprint(`tarmak::disable_ec2_metadata: true`))
+	}
+
 	// forward service IP settings
 	if conf.ServiceCIDR != "" {
 		if parts := strings.Split(conf.ServiceCIDR, "/"); len(parts) == 2 {
