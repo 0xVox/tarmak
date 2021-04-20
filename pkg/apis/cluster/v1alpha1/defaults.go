@@ -57,6 +57,11 @@ func SetDefaults_Cluster(obj *Cluster) {
 		obj.Kubernetes.PodCIDR = "100.64.0.0/16"
 	}
 
+	// podCIDR
+	if obj.Kubernetes.DisableEC2Metadata == nil {
+		obj.Kubernetes.DisableEC2Metadata = boolPointer(true)
+	}
+
 	// serviceCIDR
 	if obj.Kubernetes.ServiceCIDR == "" {
 		obj.Kubernetes.ServiceCIDR = "10.254.0.0/16"

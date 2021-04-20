@@ -87,26 +87,27 @@ type ClusterAmazon struct {
 }
 
 type ClusterKubernetes struct {
-	Zone              string                              `json:"zone,omitempty"`
-	Version           string                              `json:"version,omitempty"`
-	PodCIDR           string                              `json:"podCIDR,omitempty"`
-	ServiceCIDR       string                              `json:"serviceCIDR,omitempty"`
-	ClusterAutoscaler *ClusterKubernetesClusterAutoscaler `json:"clusterAutoscaler,omitempty"`
-	Tiller            *ClusterKubernetesTiller            `json:"tiller,omitempty"`
-	Dashboard         *ClusterKubernetesDashboard         `json:"dashboard,omitempty"`
-	PodSecurityPolicy *ClusterPodSecurityPolicy           `json:"podSecurityPolicy,omitempty"`
-	Prometheus        *ClusterKubernetesPrometheus        `json:"prometheus,omitempty"`
-	Grafana           *ClusterKubernetesGrafana           `json:"grafana,omiempty"`
-	Heapster          *ClusterKubernetesHeapster          `json:"heapster,omiempty"`
-	InfluxDB          *ClusterKubernetesInfluxDB          `json:"influxDB,omiempty"`
+	Zone               string                              `json:"zone,omitempty"`
+	Version            string                              `json:"version,omitempty"`
+	PodCIDR            string                              `json:"podCIDR,omitempty"`
+	ServiceCIDR        string                              `json:"serviceCIDR,omitempty"`
+	DisableEC2Metadata *bool							   `json:"disableEC2Metadata,omitempty"`
+	ClusterAutoscaler  *ClusterKubernetesClusterAutoscaler `json:"clusterAutoscaler,omitempty"`
+	Tiller             *ClusterKubernetesTiller            `json:"tiller,omitempty"`
+	Dashboard          *ClusterKubernetesDashboard         `json:"dashboard,omitempty"`
+	PodSecurityPolicy  *ClusterPodSecurityPolicy           `json:"podSecurityPolicy,omitempty"`
+	Prometheus         *ClusterKubernetesPrometheus        `json:"prometheus,omitempty"`
+	Grafana            *ClusterKubernetesGrafana           `json:"grafana,omiempty"`
+	Heapster           *ClusterKubernetesHeapster          `json:"heapster,omiempty"`
+	InfluxDB           *ClusterKubernetesInfluxDB          `json:"influxDB,omiempty"`
 	EncryptionProvider *ClusterEncryptionProvider          `json:"encryptionProvider"`
 
-	APIServer         *ClusterKubernetesAPIServer         `json:"apiServer,omitempty"`
-	Kubelet           *ClusterKubernetesKubelet           `json:"kubelet,omitempty"`
-	Scheduler         *ClusterKubernetesScheduler         `json:"scheduler,omitempty"`
-	Proxy             *ClusterKubernetesProxy             `json:"proxy,omitempty"`
-	ControllerManager *ClusterKubernetesControllerManager `json:"controllerManager,omitempty"`
-	Calico            *ClusterKubernetesCalico            `json:"calico,omitempty"`
+	APIServer          *ClusterKubernetesAPIServer         `json:"apiServer,omitempty"`
+	Kubelet            *ClusterKubernetesKubelet           `json:"kubelet,omitempty"`
+	Scheduler          *ClusterKubernetesScheduler         `json:"scheduler,omitempty"`
+	Proxy              *ClusterKubernetesProxy             `json:"proxy,omitempty"`
+	ControllerManager  *ClusterKubernetesControllerManager `json:"controllerManager,omitempty"`
+	Calico             *ClusterKubernetesCalico            `json:"calico,omitempty"`
 
 	GlobalFeatureGates map[string]bool `json:"globalFeatureGates,omitempty"`
 	Hyperkube          *bool           `json:"hyperkube,omitempty"`
