@@ -20,6 +20,7 @@ class kubernetes (
   $gid = $::kubernetes::params::gid,
   $user = $::kubernetes::params::user,
   $group = $::kubernetes::params::group,
+  $disable_ec2_metadata = $::kubernetes::disable_ec2_metadata,
   String $master_url = '',
   $curl_path = $::kubernetes::params::curl_path,
   $ssl_dir = undef,

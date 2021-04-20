@@ -58,6 +58,8 @@ class kubernetes::kubelet(
 ) inherits kubernetes::params{
   require ::kubernetes
 
+  $disable_ec2_metadata = $::kubernetes::disable_ec2_metadata
+
   $tls_min_version = $::kubernetes::tls_min_version
   $tls_cipher_suites = $::kubernetes::tls_cipher_suites
 

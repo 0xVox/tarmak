@@ -119,9 +119,9 @@ func kubernetesClusterConfig(conf *clusterv1alpha1.ClusterKubernetes, hieraData 
 
 	// forward pod CIDR settings
 	if conf.DisableEC2Metadata != nil {
-		hieraData.variables = append(hieraData.variables, fmt.Sprintf(`tarmak::disable_ec2_metadata: %t`, *conf.DisableEC2Metadata))
+		hieraData.variables = append(hieraData.variables, fmt.Sprintf(`kubernetes::disable_ec2_metadata: %t`, *conf.DisableEC2Metadata))
 	} else {
-		hieraData.variables = append(hieraData.variables, fmt.Sprint(`tarmak::disable_ec2_metadata: true`))
+		hieraData.variables = append(hieraData.variables, fmt.Sprint(`kubernetes::disable_ec2_metadata: true`))
 	}
 
 	// forward service IP settings
