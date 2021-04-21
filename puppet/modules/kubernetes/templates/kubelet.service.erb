@@ -9,7 +9,6 @@ WorkingDirectory=<%= @kubelet_dir %>
 <% if @cloud_provider == 'aws' -%>
 <% if @disable_ec2_metadata == true -%>
 # prevent metadata service access on AWS
-# Dont disable it at the iptables level but rather a network policy level
 ExecStartPre=/bin/sh -e -c "iptables -C PREROUTING -p tcp --destination 169.254.169.254 --dport 80 --in-interface <%= @container_interface %> --jump DNAT --table nat --to-destination 127.0.0.1:8181 2> /dev/null || iptables -A PREROUTING -p tcp --destination 169.254.169.254 --dport 80 --in-interface <%= @container_interface %> --jump DNAT --table nat --to-destination 127.0.0.1:8181"
 <% else -%>
 # Don't prevent metadata service access on AWS
